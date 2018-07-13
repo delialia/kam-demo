@@ -1,0 +1,207 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css" integrity="sha384-WskhaSGFgHYWDcbwN70/dfYBj47jz9qbsMId/iRN3ewGhXQFZCSftd1LZCfmhktB" crossorigin="anonymous">
+
+    <!------ Include the above in your HEAD tag : https://bootsnipp.com/snippets/featured/stylish-range-selectors ---------->
+    <link href="//netdna.bootstrapcdn.com/bootstrap/3.1.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.1.0/js/bootstrap.min.js"></script>
+    <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
+
+    <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='slider_style.css')}}">
+
+
+    <title>does-k-matter</title>
+
+
+
+  </head>
+
+
+  <body>
+
+    <style>
+      .droparea {
+          width: 664px;
+          height: 502px;
+          border-style: solid;
+          border-width: 3px;
+          border-color: green;
+          float: left;
+          line-height: 200px;
+          text-align: center;
+      }
+    </style>
+
+
+
+
+
+    <div class="container">
+
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm-25">
+          <img src="{{url_for('static', filename='title_new.png')}}" height="100" width="800" />
+        </div>
+        <div class="col-sm">
+      </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm-25">
+            <div class="droparea">  <img src="{{ url_for('static', filename='drop.png') }}" height="496" width="648" /> </div>
+            <div class="tablearea" id="tablearea"></div>
+        </div>
+        <div class="col-sm">
+      </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+        </div>
+        <div class="col-sm-25">
+
+          <div class="range range-success">
+            <input id="slider" type="range" name="range" min="10" max="500" value="250" onchange="rangeSuccess.value=value">
+            <output id="rangeSuccess">250</output>
+          </div>
+
+        </div>
+        <div class="col-sm">
+        </div>
+      </div>
+
+      <div class="row">
+        <div class="col-sm">
+          <button class="btn btn-lg btn-primary btn-block" type="button">START</button>
+        </div>
+      </div>
+
+      <div onclick="wavesurfer.play()">
+          <div id="waveform" style="border: 5px solid green"></div>
+      </div>
+
+      <div onclick="wavesurfer02.play()">
+          <div id="waveform02" style="border: 5px solid green"></div>
+      </div>
+
+      <div class="row">
+          <div class="estimates"> <img src="{{url_for('static', filename='white.png')}}" height="100" width="800" />
+      </div>
+
+
+    </div>
+
+
+
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js" integrity="sha384-ZMP7rVo3mIykV+2+9J3UJ46jBk0WLaUAdn689aCwoqbBJiSnjAK/l8WvCWPIPm49" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js" integrity="sha384-smHYKdLADwkXOn1EmN1qk/HfnUcbVRZyYmZ4qpPea6sjB/pTJ0euyQp0Mk8ck+5T" crossorigin="anonymous"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/wavesurfer.js/2.0.6/wavesurfer.min.js"></script>
+
+    <script>
+
+
+    // GET VALUE SLIDER AND UPDATE
+    /*
+    var val = document.getElementById("slider").value;
+    console.log(val);
+    var update_val = function(){
+      val = document.getElementById("slider").value;
+      console.log(val);
+    }
+    var slider = document.getElementById('slider');
+    slider.addEventListener("input", update_val);
+    */
+
+
+    // HANDLE DROP OF AUDIO FILE
+    var dragHandler = function(evt){
+        evt.preventDefault();
+    };
+
+    var dropHandler = async function(evt){
+        evt.preventDefault();
+        var files = evt.originalEvent.dataTransfer.files;
+        console.log(files[0]);
+
+        var formData = new FormData();
+        formData.append("file2upload", files[0]);
+
+        var req = {
+            url: "/sendfile",
+            method: "post",
+            processData: false,
+            contentType: false,
+            data: formData
+        };
+
+        //var path = await $.ajax(req);
+        var out_message = await $.ajax(req);
+        console.log(out_message)
+
+         $(".droparea").replaceWith('<div class="droparea">  <img src= /image_mix.png height="496" width="648" /> </div>');
+
+         $(".droparea").on(dropHandlerSet);
+
+    };
+
+    var dropHandlerSet = {
+        dragover: dragHandler,
+        drop: dropHandler
+    };
+
+    $(".droparea").on(dropHandlerSet);
+
+    var wavesurfer = WaveSurfer.create({
+        container: '#waveform',
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
+    var wavesurfer02 = WaveSurfer.create({
+        container: '#waveform02',
+        waveColor: 'violet',
+        progressColor: 'purple'
+    });
+
+
+
+    // BUTTON TRIGGER
+    $(function() {
+        $('button').click(function() {
+            var val = document.getElementById("slider").value;
+            // $.getJSON(url, data, func) sends a GET request to url and will send the contents of the data object as query parameters.
+            // Once the data arrived, it will call the given function with the return value as argument.
+            $.getJSON( '/separate', { 'k' : val }, function(data) {
+                console.log(data['result']);
+                $(".estimates").replaceWith('<div class="estimates">  <img src= /image_estimates.png height="496" width="1000" /> </div>');
+                wavesurfer.load('/result_vocals.wav');
+                wavesurfer02.load('/result_back.wav');
+              });
+
+            console.log("Here is k:")
+            console.log(val)
+
+        });
+    });
+
+
+
+
+
+
+
+    </script>
+  </body>
+</html>
