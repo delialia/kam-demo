@@ -11,7 +11,7 @@ python example.py
 ```
 
 For further detail about the proposed method please refer to:  
-"Does k matter? k-NN Hubness Analysis for Kernel Additive Modelling Vocal Separation" 
+["Does k matter? k-NN Hubness Analysis for Kernel Additive Modelling Vocal Separation"](https://link.springer.com/chapter/10.1007/978-3-319-93764-9_27)
 Delia Fano Yela, Dan Stowell and Mark Sandler, LVA/ICA Surrey July 2018.
 
 
@@ -46,6 +46,19 @@ numpy
 librosa  
 matplotlib  
 scipy  
+
+# References
+**If you use this work for your research please cite:**
+```
+@inproceedings{khub2018,
+  title={Does k matter? k-nn hubness analysis for kernel additive modelling vocal separation},
+  author={Yela, Delia Fano and Stowell, Dan and Sandler, Mark},
+  booktitle={International Conference on Latent Variable Analysis and Signal Separation},
+  pages={280--289},
+  year={2018},
+  organization={Springer}
+}
+```
 
 
 ------------------------------------------------------------------------------
